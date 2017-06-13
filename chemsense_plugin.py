@@ -12,10 +12,9 @@ device = os.environ.get('CHEMSENSE_DEVICE', '/dev/tty.usbserial-142A')
 
 class ChemsensePlugin(waggle.pipeline.Plugin):
 
-    logger = logging.getLogger('ChemsensePlugin')
-
     plugin_name = 'chemsense'
     plugin_version = '1'
+    plugin_instance = '1'
 
     def run(self):
         with Serial(device, baudrate=115200, timeout=1) as s:
@@ -26,8 +25,6 @@ class ChemsensePlugin(waggle.pipeline.Plugin):
                     line = s.readline().decode()
                 except UnicodeDecodeError:
                     continue
-
-                self.logger.debug('line: {}'.format(line))
 
                 if len(line) == 0:
                     if data:
